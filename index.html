@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<meta name="robots" content="noindex, nofollow">
+<title>Open in Obsidian</title>
+<style>
+  :root { color-scheme: light dark; }
+  body { font: 16px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; max-width: 32rem; margin: 20vh auto; padding: 0 16px; }
+  a.button { display: inline-block; padding: .6rem 1.1rem; border-radius: 6px; background: #7c3aed; color: #fff; text-decoration: none; }
+  p.small { opacity: .7; font-size: .9rem; }
+</style>
+</head>
+<body>
+<p id="status">Opening Obsidian…</p>
+<p><a id="open" class="button" href="#">Open in Obsidian</a></p>
+<p class="small">You can close this tab once Obsidian has opened.</p>
+<script>
+  // Links look like: https://<this page>/#vault=<vault name>&file=<path/to/note>
+  // Everything after "#" stays in the browser; it is never sent to the server.
+  (function () {
+    var params = new URLSearchParams(location.hash.slice(1));
+    var vault = params.get('vault');
+    var file = params.get('file');
+    var status = document.getElementById('status');
+    var button = document.getElementById('open');
+    if (!vault || !file) {
+      status.textContent = 'This link is missing the vault or note name.';
+      button.style.display = 'none';
+      return;
+    }
+    var uri = 'obsidian://open?vault=' + encodeURIComponent(vault) + '&file=' + encodeURIComponent(file);
+    button.href = uri;
+    status.textContent = 'Opening ' + file.split('/').pop() + ' in Obsidian…';
+    location.replace(uri);
+  })();
+</script>
+</body>
+</html>
